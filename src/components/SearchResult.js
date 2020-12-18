@@ -1,12 +1,28 @@
 import React from 'react';
+import { Button } from 'react-bootstrap';
+import { Redirect } from 'react-router-dom';
 import _ from 'lodash';
 import AlbumsList from './AlbumsList';
 import ArtistsList from './ArtistsList';
 import PlayList from './PlayList';
 
 const SearchResult = (props) => {
-  const { result, setCategory, selectedCategory } = props;
+  const { result, setCategory, selectedCategory, loadMore, isValidSession } = props;
   const { albums, artists, playlist } = result;
+
+  if (!isValidSession()) {
+    return (
+      <Redirect
+        to={{
+          pathname: '/',
+          state: {
+            session_expired: true
+          }
+        }}
+      />
+    );
+  }
+
   return (
     <React.Fragment>
       <div className="search-buttons">
@@ -50,6 +66,13 @@ const SearchResult = (props) => {
       <div className={`${selectedCategory === 'playlist' ? '' : 'hide'}`}>
         {playlist && <PlayList playlist={playlist} />}
       </div>
+
+      {!_.isEmpty(result[selectedCategory]) &&
+        !_.isEmpty(result[selectedCategory].next) && (
+        <div className="load-more" onClick={() => loadMore(selectedCategory)}>
+            <Button variant="info" type="button">Load More</Button>
+        </div>
+      )}
     </React.Fragment>
   );
 };

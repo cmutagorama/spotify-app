@@ -135,7 +135,13 @@ body {
 
 .card {
     margin: 1rem;
+    border: solid 1px #efefef;
+}
+
+.card:hover {
+    border: none;
     box-shadow: 0 2px 7px 3px #949ca5;
+    cursor: pointer;
 }
 
 .card .card-image-link {

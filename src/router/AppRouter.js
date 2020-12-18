@@ -36,7 +36,13 @@ class AppRouter extends React.Component {
       <BrowserRouter>
         <div className="main">
           <Switch>
-            <Route path="/" component={Home} exact={true} />
+            <Route
+                path="/"
+                exact={true}
+                render={(props) => (
+                    <Home isValidSession={this.isValidSession} {...props} />
+                )}
+            />
             <Route
                 path="/redirect"
                 render={(props) => (
@@ -50,7 +56,7 @@ class AppRouter extends React.Component {
             <Route
                 path="/dashboard"
                 render={(props) => (
-                <Dashboard isValidSession={this.isValidSession} {...props} />
+                    <Dashboard isValidSession={this.isValidSession} {...props} />
                 )}
             />
             <Route component={NotFoundPage} />

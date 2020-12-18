@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 
-import { initiateGetResult } from '../actions/result';
+import {
+    initiateGetResult,
+    initiateLoadMoreAlbums,
+    initiateLoadMorePlaylist,
+    initiateLoadMoreArtists
+  } from '../actions/result';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import SearchResult from './SearchResult';
@@ -30,6 +35,33 @@ const Dashboard = (props) => {
     }
   };
 
+  const loadMore = async (type) => {
+    if (isValidSession()) {
+      const { dispatch, albums, artists, playlist } = props;
+      setIsLoading(true);
+      switch (type) {
+        case 'albums':
+          await dispatch(initiateLoadMoreAlbums(albums.next));
+          break;
+        case 'artists':
+          await dispatch(initiateLoadMoreArtists(artists.next));
+          break;
+        case 'playlist':
+          await dispatch(initiateLoadMorePlaylist(playlist.next));
+          break;
+        default:
+      }
+      setIsLoading(false);
+    } else {
+      history.push({
+        pathname: '/',
+        state: {
+          session_expired: true
+        }
+      });
+    }
+  };
+
   const setCategory = (category) => {
     setSelectedCategory(category);
   };
@@ -49,6 +81,7 @@ const Dashboard = (props) => {
             setCategory={setCategory}
             selectedCategory={selectedCategory}
             isValidSession={isValidSession}
+            loadMore={loadMore}
           />
         </div>
       ) : (
