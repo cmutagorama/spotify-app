@@ -23,7 +23,7 @@ const SearchForm = (props) => {
     <div>
       <Form onSubmit={handleSearch}>
         {errorMsg && <p className="errorMsg">{errorMsg}</p>}
-        <Form.Group controlId="formBasicEmail">
+        <Form.Group controlId="formBasicSearch">
           <Form.Label>Enter search term</Form.Label>
           <Form.Control
             type="search"

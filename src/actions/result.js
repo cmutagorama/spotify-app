@@ -6,7 +6,7 @@ import {
     SET_PLAYLIST,
     ADD_PLAYLIST
 } from '../utils/constants';
-import {get } from '../utils/api';
+import { get } from '../utils/api';
 
 export const setAlbums = (albums) => ({
     type: SET_ALBUMS,
